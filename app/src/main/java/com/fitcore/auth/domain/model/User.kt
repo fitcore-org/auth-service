@@ -3,7 +3,8 @@ package com.fitcore.auth.domain.model
 enum class UserRole {
     ADMIN,
     SECRETARY,
-    TEACHER
+    TEACHER,
+    STUDENT
 }
 
 data class User(
@@ -12,6 +13,9 @@ data class User(
     val email: String,
     val password: String,
     val role: UserRole,
+    val cpf: String? = null,       
+    val birthDate: String? = null,
     val createdAt: Long = System.currentTimeMillis(),
     val updatedAt: Long = System.currentTimeMillis()
 )
+

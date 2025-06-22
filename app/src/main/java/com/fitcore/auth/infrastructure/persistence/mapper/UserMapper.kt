@@ -12,7 +12,9 @@ object UserMapper {
         password = entity.password,
         role = UserRole.valueOf(entity.role),
         createdAt = entity.createdAt,
-        updatedAt = entity.updatedAt
+        updatedAt = entity.updatedAt,
+        cpf = entity.cpf,
+        birthDate = entity.birthDate
     )
 
     fun toEntity(domain: User): UserEntity = UserEntity(
@@ -22,6 +24,8 @@ object UserMapper {
         password = domain.password,
         role = domain.role.name,
         createdAt = domain.createdAt,
-        updatedAt = domain.updatedAt
+        updatedAt = domain.updatedAt,
+        cpf = domain.cpf,
+        birthDate = domain.birthDate
     )
 }

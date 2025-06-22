@@ -34,7 +34,9 @@ class UserPersistenceAdapter(
             password = user.password,
             role = user.role.name,
             createdAt = user.createdAt,
-            updatedAt = user.updatedAt
+            updatedAt = user.updatedAt,
+            cpf = user.cpf,
+            birthDate = user.birthDate
         )
         val saved = userJpaRepository.save(entity)
         return saved.toDomain()
