@@ -8,7 +8,9 @@ data class UserResponse(
     val email: String,
     val role: String,
     val createdAt: Long,
-    val updatedAt: Long
+    val updatedAt: Long,
+    val cpf: String?,
+    val birthDate: String?
 ) {
     companion object {
         fun fromDomain(user: User) = UserResponse(
@@ -17,7 +19,9 @@ data class UserResponse(
             email = user.email,
             role = user.role.name,
             createdAt = user.createdAt,
-            updatedAt = user.updatedAt
+            updatedAt = user.updatedAt,
+            cpf = user.cpf,
+            birthDate = user.birthDate
         )
     }
 }

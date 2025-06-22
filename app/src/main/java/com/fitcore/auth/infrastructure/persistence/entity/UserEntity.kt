@@ -12,9 +12,11 @@ data class UserEntity(
     val password: String = "",
     val role: String = "",
     val createdAt: Long = System.currentTimeMillis(),
-    val updatedAt: Long = System.currentTimeMillis()
+    val updatedAt: Long = System.currentTimeMillis(),
+    val cpf: String? = null,
+    val birthDate: String? = null
 ) {
-    constructor() : this(null, "", "", "", "", System.currentTimeMillis(), System.currentTimeMillis())
+    constructor() : this(null, "", "", "", "", System.currentTimeMillis(), System.currentTimeMillis(), null, null)
     fun toDomain() = com.fitcore.auth.domain.model.User(
         id = id,
         name = name,
@@ -22,6 +24,8 @@ data class UserEntity(
         password = password,
         role = com.fitcore.auth.domain.model.UserRole.valueOf(role),
         createdAt = createdAt,
-        updatedAt = updatedAt
+        updatedAt = updatedAt,
+        cpf = cpf,
+        birthDate = birthDate
     )
 }
