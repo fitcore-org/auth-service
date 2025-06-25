@@ -7,3 +7,5 @@ build
 # Spring Boot config files
 **/application.yml
 **/application.properties
+
+.vscode/
