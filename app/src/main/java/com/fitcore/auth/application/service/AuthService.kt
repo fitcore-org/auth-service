@@ -10,19 +10,25 @@ import com.fitcore.auth.domain.model.User
 import com.fitcore.auth.domain.model.UserRole
 import com.fitcore.auth.domain.port.`in`.AuthUseCase
 import com.fitcore.auth.domain.port.out.UserRepositoryPort
+import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 
 @Service
 class AuthService(
-    private val userRepositoryPort: UserRepositoryPort
+    private val userRepositoryPort: UserRepositoryPort,
+    private val passwordEncoder: PasswordEncoder
 ) : AuthUseCase {
 
-override fun login(request: LoginRequest): LoginResponse {
-    val user = userRepositoryPort.findByEmail(request.email)
-        ?: throw IllegalArgumentException("User not found")
+    override fun login(request: LoginRequest): LoginResponse {
+        val user = userRepositoryPort.findByEmail(request.email)
+            ?: throw IllegalArgumentException("User not found")
 
-    if (user.password != request.password) {
-        throw IllegalArgumentException("Invalid password")
+        if (!passwordEncoder.matches(request.password, user.password)) {
+            throw IllegalArgumentException("Invalid password")
+        }
+
+        val token = JwtUtil.generateToken(user.id!!, user.role.name)
+        return LoginResponse(token = token)
     }
 
     val token = JwtUtil.generateToken(user.id!!, user.role.name)
@@ -43,8 +49,10 @@ override fun login(request: LoginRequest): LoginResponse {
         val user = User(
             name = request.name,
             email = request.email,
-            password = request.password,
+            password = passwordEncoder.encode(request.password),
             role = UserRole.valueOf(request.role),
+            cpf = request.cpf,
+            birthDate = request.birthDate
         )
         val saved = userRepositoryPort.save(user)
         return RegisterResponse(
