@@ -36,8 +36,6 @@ class AuthService(
             role = user.role.name
         )
     }
-}
-
 
     override fun register(request: RegisterRequest): RegisterResponse {
         if (userRepositoryPort.findByEmail(request.email) != null) {
