@@ -28,17 +28,14 @@ class AuthService(
         }
 
         val token = JwtUtil.generateToken(user.id!!, user.role.name)
-        return LoginResponse(token = token)
+        return LoginResponse(
+            token = token,
+            id = user.id!!,
+            name = user.name,
+            email = user.email,
+            role = user.role.name
+        )
     }
-
-    val token = JwtUtil.generateToken(user.id!!, user.role.name)
-    return LoginResponse(
-        token = token,
-        id = user.id!!,
-        name = user.name,
-        email = user.email,
-        role = user.role.name
-    )
 }
 
 
