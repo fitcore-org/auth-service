@@ -4,8 +4,5 @@
 # Ignore Gradle build output directory
 build
 
-# Spring Boot config files
-**/application.yml
-**/application.properties
-
 .vscode/
+./idea
