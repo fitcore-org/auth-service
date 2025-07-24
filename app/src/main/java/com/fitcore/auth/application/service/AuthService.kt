@@ -1,5 +1,7 @@
 package com.fitcore.auth.application.service
 
+import com.fitcore.auth.infrastructure.messaging.UserEventPublisher
+import com.fitcore.auth.infrastructure.messaging.events.UserRegisteredEvent
 import com.fitcore.auth.infrastructure.security.JwtUtil
 import com.fitcore.auth.adapter.web.dto.LoginRequest
 import com.fitcore.auth.adapter.web.dto.LoginResponse
@@ -16,7 +18,8 @@ import org.springframework.stereotype.Service
 @Service
 class AuthService(
     private val userRepositoryPort: UserRepositoryPort,
-    private val passwordEncoder: PasswordEncoder
+    private val passwordEncoder: PasswordEncoder,
+    private val userEventPublisher: UserEventPublisher
 ) : AuthUseCase {
 
     override fun login(request: LoginRequest): LoginResponse {
@@ -50,8 +53,20 @@ class AuthService(
             birthDate = request.birthDate
         )
         val saved = userRepositoryPort.save(user)
+
+        userEventPublisher.publishUserRegistered(
+            UserRegisteredEvent(
+                id = saved.id!!,
+                name = saved.name,
+                email = saved.email,
+                role = saved.role.name,
+                cpf = saved.cpf,
+                birthDate = saved.birthDate
+            )
+        )
+
         return RegisterResponse(
-            id = saved.id!!,
+            id = saved.id,
             name = saved.name,
             email = saved.email,
             role = saved.role.name
