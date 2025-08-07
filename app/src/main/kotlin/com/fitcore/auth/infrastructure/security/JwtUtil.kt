@@ -3,16 +3,21 @@ package com.fitcore.auth.infrastructure.security
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.SignatureAlgorithm
 import io.jsonwebtoken.security.Keys
-import java.util.*
 import javax.crypto.SecretKey
+import org.springframework.beans.factory.annotation.Value
+import org.springframework.stereotype.Component
+import java.util.*
 
-object JwtUtil {
-    private val secretKey: SecretKey = Keys.secretKeyFor(SignatureAlgorithm.HS256)
-    private const val EXPIRATION_MS = 1000 * 60 * 60 * 6 // 6 h
+@Component
+class JwtUtil(
+    @Value("\${jwt.secret}") secret: String,
+    @Value("\${jwt.token.validity}") private val expirationMs: Long
+) {
+    private val secretKey: SecretKey = Keys.hmacShaKeyFor(secret.toByteArray())
 
     fun generateToken(userId: Long, role: String): String {
         val now = Date()
-        val expiry = Date(now.time + EXPIRATION_MS)
+        val expiry = Date(now.time + expirationMs)
         return Jwts.builder()
             .setSubject(userId.toString())
             .claim("role", role)
@@ -21,6 +26,7 @@ object JwtUtil {
             .signWith(secretKey)
             .compact()
     }
+    
     fun extractAllClaims(token: String): Map<String, Any> {
         val claims = Jwts.parser()
             .verifyWith(secretKey).build()

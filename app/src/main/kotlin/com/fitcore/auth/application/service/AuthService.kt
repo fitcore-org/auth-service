@@ -19,7 +19,8 @@ import org.springframework.stereotype.Service
 class AuthService(
     private val userRepositoryPort: UserRepositoryPort,
     private val passwordEncoder: PasswordEncoder,
-    private val userEventPublisher: UserEventPublisher
+    private val userEventPublisher: UserEventPublisher,
+    private val jwtUtil: JwtUtil
 ) : AuthUseCase {
 
     override fun login(request: LoginRequest): LoginResponse {
@@ -30,7 +31,7 @@ class AuthService(
             throw IllegalArgumentException("Invalid password")
         }
 
-        val token = JwtUtil.generateToken(user.id!!, user.role.name)
+        val token = jwtUtil.generateToken(user.id!!, user.role.name)
         return LoginResponse(
             token = token,
             id = user.id!!,
