@@ -1,10 +1,11 @@
 package com.fitcore.auth.domain.model
 
 enum class UserRole {
-    ADMIN,
-    SECRETARY,
-    TEACHER,
-    STUDENT
+    CLEANER,
+    PERSONAL_TRAINER,
+    RECEPTIONIST,
+    STUDENT,
+    MANAGER
 }
 
 data class User(

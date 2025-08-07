@@ -22,9 +22,9 @@ class StudentController(
         @RequestHeader("X-User-Id") userId: String,
         @RequestHeader("X-User-Role") userRole: String
     ): ResponseEntity<UserResponse> {
-        if (userRole.uppercase() == "TEACHER") {
-            logger.warn("Access blocked: teacher attempted to register a student. id=$userId")
-            throw ResponseStatusException(HttpStatus.FORBIDDEN, "Teachers are not allowed to register students.")
+        if (userRole.uppercase() == "PERSONAL_TRAINER") {
+            logger.warn("Access blocked: personal trainer attempted to register a student. id=$userId")
+            throw ResponseStatusException(HttpStatus.FORBIDDEN, "Personal trainers are not allowed to register students.")
         }
         return ResponseEntity.ok(studentService.registerStudent(request))
     }

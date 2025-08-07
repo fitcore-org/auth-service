@@ -13,7 +13,8 @@ import org.springframework.web.bind.annotation.*
 class AuthController(
     private val authUseCase: AuthUseCase,
     private val tokenBlacklistService: TokenBlacklistService,
-    private val passwordResetService: PasswordResetService
+    private val passwordResetService: PasswordResetService,
+    private val jwtUtil: JwtUtil
 ) {
     @PostMapping("/login")
     fun login(@RequestBody request: LoginRequest): ResponseEntity<LoginResponse> {
@@ -30,7 +31,7 @@ class AuthController(
     @PostMapping("/logout")
     fun logout(@RequestHeader("Authorization") authorization: String): ResponseEntity<String> {
         val token = authorization.removePrefix("Bearer ").trim()
-        val claims = JwtUtil.extractAllClaims(token)
+        val claims = jwtUtil.extractAllClaims(token) 
         val exp = (claims["exp"] as? Number)?.toLong() ?: 0L
         tokenBlacklistService.blacklistToken(token, exp)
         return ResponseEntity.ok("Logout successful")
@@ -47,5 +48,4 @@ class AuthController(
         passwordResetService.confirmReset(request)
         return ResponseEntity.ok("Password changed successfully.")
     }
-
 }

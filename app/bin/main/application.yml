@@ -1,4 +1,8 @@
 spring:
+
+  application:
+    name: auth-service
+
   datasource:
     url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:auth}
     username: ${DB_USER:fitcore}
@@ -14,6 +18,7 @@ spring:
     port: 5672
     username: ${RABBITMQ_USER:admin}
     password: ${RABBITMQ_PASS:admin}
+
   mail:
     host: smtp.gmail.com
     port: 587
@@ -30,9 +35,18 @@ spring:
           writetimeout: 5000
         from: "FitCore <oficial.fitcore@gmail.com>"
 
-
 server:
   port: 8080
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://eureka-server:8761/eureka
+
+jwt:
+  secret: dk1v9mOPWQZx4pl2ns7D5YRFv8sHg3tLbcxyqzABP0Lmns2Xkc   
+  token:
+    validity: 3600000
 
 logging:
   level:
