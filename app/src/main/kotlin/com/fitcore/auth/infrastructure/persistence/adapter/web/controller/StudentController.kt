@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*
 import org.springframework.web.server.ResponseStatusException
 
 @RestController
-@RequestMapping("/students")
+@RequestMapping("/auth/students")
 class StudentController(
     private val studentService: StudentService
 ) {
