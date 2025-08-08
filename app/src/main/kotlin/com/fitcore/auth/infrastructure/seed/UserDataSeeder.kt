@@ -43,7 +43,7 @@ class UserDataSeeder(
                 email = "fitcore@fitcore.com",
                 password = passwordEncoder.encode("password123"),
                 role = UserRole.STUDENT,
-                cpf = "123.456.789-00",
+                cpf = "12345678900",
                 birthDate = "2000-04-15"
             ),
             User(
