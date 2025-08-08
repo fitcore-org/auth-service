@@ -39,8 +39,8 @@ class UserDataSeeder(
                 role = UserRole.RECEPTIONIST
             ),
             User(
-                name = "João Estudante",
-                email = "student@example.com",
+                name = "Victor Conde",
+                email = "fitcore@fitcore.com",
                 password = passwordEncoder.encode("password123"),
                 role = UserRole.STUDENT,
                 cpf = "123.456.789-00",
